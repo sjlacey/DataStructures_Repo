@@ -4,48 +4,114 @@ import java.util.Iterator;
 
 public class CircularlyLinkedList<E> implements List<E> {
 
-	private class Node<E> {
+	private Node<E> tail = null;
+	private int size = 0;
 
+	public CircularlyLinkedList() { }
+
+	private class Node<E>
+	{
+		private E element;
+
+		private Node<E> next;
+
+		public Node(E e, Node<E> n)
+		{
+			element = e;
+			next = n;
+		}
+		//Accessors
+		public Node<E> getNext()
+		{
+			return next;
+		}
+		public E getElement()
+		{
+			return element;
+		}
+
+		//Mutators
+		public void setNext(Node<E> n)
+		{
+			next = n;
+		}
 	}
 
 	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int size() { return size; }
+
+	@Override
+	public boolean isEmpty() { return size == 0; }
+
+
+	@Override
+	public E get(int i)
+	{
+		Node<E> cur = tail.getNext();
+		Node<E> prev = tail;
+
+		for(int j=0; j<i; j++)
+		{
+			prev = cur;
+			cur = cur.next;
+		}
+
+		return cur.getElement();
 	}
 
 	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+	public void add(int i, E e)
+	{
+		Node<E> cur = tail.getNext();
+		Node<E> prev = tail;
+
+		if(size==0)
+		{
+			tail = new Node<E>(e, null);
+			tail.setNext(tail);
+		}
+		else
+		{
+			for(int j=0; j<i; j++)
+			{
+				prev = cur;
+				cur = cur.next;
+			}
+
+			Node<E> newest = new Node<E>(e, tail.getNext());
+			tail.setNext(newest);
+		}
 	}
 
 	@Override
-	public E get(int i) {
-		// TODO Auto-generated method stub
+	public E remove(int i)
+	{
+		Node<E> cur = tail.getNext();
+		Node<E> prev = tail;
+
+		if(isEmpty()) throw new RuntimeException("Cannot delete as list is empty.");
+		Node<E> head = tail.getNext();
+		for(int j=0; j<i; j++)
+		{
+			prev = cur;
+			cur = cur.next;
+		}
+		if(head==tail) tail = null;
+		else tail.setNext(head.getNext());
+		size--;
+		return head.getElement();
+	}
+
+	@Override
+	public E removeFirst()
+	{
+		remove(0);
 		return null;
 	}
 
 	@Override
-	public void add(int i, E e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public E remove(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public E removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public E removeLast() {
+	public E removeLast()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
