@@ -82,11 +82,12 @@ public class ArrayStack<E> implements Stack<E>
 		AS.push(3);
 		AS.push(4);
 		AS.push(5);
-		System.out.println("Initial array: " + AS.toString());
+
+		System.out.println("Initial stack: " + AS.toString());
 		AS.pop();
 		AS.pop();
+		System.out.println("Stack after two pops: " + AS.toString());
 		System.out.println("Size: " + AS.size());
-		System.out.println("Array after two pops: " + AS.toString());
 	}
 
 }
