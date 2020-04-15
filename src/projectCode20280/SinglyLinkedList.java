@@ -11,7 +11,7 @@ public class SinglyLinkedList<E> implements List<E>
 	//E head; old code
 	Node<E> head;
 
-	private static class Node<E> //*** Node class is very simple, just holding references
+	static class Node<E> //*** Node class is very simple, just holding references
 	{                            //*** to the data and the pointer to the next node!
 		private E element;
 
@@ -38,7 +38,7 @@ public class SinglyLinkedList<E> implements List<E>
 		{
 			next = n;
 		}
-
+		public void setElement(E e) { this.element = e; }
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class SinglyLinkedList<E> implements List<E>
 	}
 
 	@Override
-	public E get(int i)
+	public E get(int i) //return element at index i
 	{
 		if(i<0 || i>(size-1))
 		{
