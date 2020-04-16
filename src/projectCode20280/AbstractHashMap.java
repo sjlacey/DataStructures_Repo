@@ -107,9 +107,8 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
     /**
      * Hash function applying MAD method to default hash code.
      */
-    private int hashValue(K key) {
-        // TODO
-    	return 0;
+    private int hashValue(K key) { //creates the unique integer value for the key
+        return (int) (Math.abs(key.hashCode()*scale+shift) % prime) % capacity;
     }
 
     /**

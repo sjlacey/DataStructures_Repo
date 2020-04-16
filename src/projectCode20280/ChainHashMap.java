@@ -1,7 +1,9 @@
 package projectCode20280;
 
+import javax.xml.stream.events.EntityReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /*
  * Map implementation using hash table with separate chaining.
@@ -30,7 +32,7 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	@Override
 	@SuppressWarnings({ "unchecked" })
 	protected void createTable() {
-
+		table = (UnsortedTableMap<K, V>[]) new UnsortedTableMap[capacity];
 	}
 
 	/**
@@ -43,8 +45,14 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketGet(int h, K k) {
-		return null;
-	}
+		UnsortedTableMap<K, V> bucket = table[h];
+
+		if(bucket==null) {
+			return null;
+		} else {
+			return bucket.get(k);
+		}
+ 	}
 
 	/**
 	 * Associates key k with value v in bucket with hash value h, returning the
@@ -57,7 +65,17 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketPut(int h, K k, V v) {
-		return null;
+		UnsortedTableMap<K, V> bucket = table[h];
+
+		if(bucket==null) {
+			bucket = new UnsortedTableMap<K, V>();
+			table[h] = bucket;
+		}
+		int prevSize = bucket.size();
+		V temp = bucket.put(k,v);
+		n+= bucket.size()-prevSize; //increments n by 1 if and only if an element has been added to the HashTable
+		//error with: System.out.println("bucketPut: " +h+ "  " +k+ "  " +v+ "  " +bucket);
+		return temp;
 	}
 
 	/**
@@ -70,7 +88,14 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketRemove(int h, K k) {
-		return null;
+		UnsortedTableMap<K, V> bucket = table[h];
+		if(bucket==null) {
+			return null;
+		}
+		int prevSize = bucket.size();
+		V temp = bucket.remove(k);
+		n -= prevSize-bucket.size();
+		return temp;
 	}
 
 	/**
@@ -80,12 +105,35 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
-		return null;
+		ArrayList<Entry<K,V>> result = new ArrayList<Entry<K,V>>(); //TODO order not guaranteed here, "construct arraylist and sort elements in the arrayList"
+
+		for(int i=0; i<capacity; ++i) {
+			UnsortedTableMap<K,V> bucket = table[i];
+			if(bucket!=null) {
+				for(Entry<K,V> entry : bucket.entrySet()) {
+					result.add(entry);
+				}
+			}
+		}
+		return result;
 	}
-	
+
+	public String toString() {
+		return entrySet().toString();
+	}
+
 	public static void main(String[] args) {
 		//HashMap<Integer, String> m = new HashMap<Integer, String>();
 		ChainHashMap<Integer, String> m = new ChainHashMap<Integer, String>();
+		//System.out.println("Size before: " +m.size());
+		//String n = m.put(1, "One");
+		//String n1 = m.put(2, "Two");
+		//System.out.println("Size before: " +m.size()+ " -> " +n);
+		//System.out.println(m);
+
+		//m.remove(1);
+		//System.out.println("Size after: " +m.size());
+
 		m.put(1, "One");
 		m.put(10, "Ten");
 		m.put(11, "Eleven");
@@ -95,5 +143,14 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 		
 		m.remove(11);
 		System.out.println("m: " + m);
+
+		/*frequency counter
+		ChainHashMap<String, Integer> counter = new();
+		Scanner scanner = new Scanner();
+		pseudocode:
+		for(String word : scanner) { //scan the file
+			Integer tempCount = counter.get(word);
+			counter.put(tempCode+1); //TODO is going to count the frequency of words
+		}*/
 	}
 }
