@@ -15,7 +15,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
 	// We reuse the LinkedBinaryTree class. A limitation here is that we only use the key.
 	protected LinkedBinaryTree<Entry<K, V>> tree = new LinkedBinaryTree<Entry<K,V>>();
-
+	//may have to delete 'extends comparable from linkedbinarytree? No errors from that so far...
 	/** Constructs an empty map using the natural ordering of keys. */
 	public TreeMap() {
 		super(); // the AbstractSortedMap constructor
@@ -39,48 +39,42 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
 	/** Utility used when inserting a new entry at a leaf of the tree */
 	private void expandExternal(Position<Entry<K, V>> p, Entry<K, V> entry) {
-		// TODO
+		tree.set(p,entry);
+		tree.addLeft(p, null);
+		tree.addRight(p, null);
 	}
 
 	// Some notational shorthands for brevity (yet not efficiency)
 	protected Position<Entry<K, V>> root() {
-		// TODO
-		return null;
+		return tree.root();
 	}
 
 	protected Position<Entry<K, V>> parent(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.parent(p);
 	}
 
 	protected Position<Entry<K, V>> left(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.left(p);
 	}
 
 	protected Position<Entry<K, V>> right(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.right(p);
 	}
 
 	protected Position<Entry<K, V>> sibling(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.sibling(p);
 	}
 
 	protected boolean isRoot(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isRoot(p);
 	}
 
 	protected boolean isExternal(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isExternal(p);
 	}
 
 	protected boolean isInternal(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isInternal(p);
 	}
 
 	protected void set(Position<Entry<K, V>> p, Entry<K, V> e) {
@@ -101,8 +95,17 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 * @return Position holding key, or last node reached during search
 	 */
 	private Position<Entry<K, V>> treeSearch(Position<Entry<K, V>> p, K key) {
-		// TODO
-		return null;
+		if(isExternal(p)) {
+			return p; //the case when p is not found
+		}
+		int i = compare(key, p.getElement());
+		if(i==0) {
+			return p;
+		} else if(i<0) {
+			return treeSearch(left(p), key);
+		} else {
+			return treeSearch(right(p), key);
+		}
 	}
 
 	/**
@@ -152,8 +155,16 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public V put(K key, V value) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Position<Entry<K,V>> pos = treeSearch(root(), key);
+		Entry<K,V> entry = new MapEntry<>(key, value);
+		if(isExternal(pos)) {
+			expandExternal(pos, entry);
+			return null;
+		} else {
+			V temp = pos.getElement().getValue();
+			set(pos, entry);
+			return temp;
+		}
 	}
 
 	/**
@@ -295,10 +306,21 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		}
 	}
 
+	public String toString() {
+		return tree.toString();
+	}
+
 	public static void main(String[] args) {
 		TreeMap<Integer, Integer> treeMap = new TreeMap<Integer, Integer>();
-		
-		Random rnd = new Random();
+
+		Integer [] array = new Integer[] {44, 17, 88, 8, 32, 56, 97, 28, 54, 82, 93, 21, 29, 76, 80};
+		for(Integer i : array)
+			treeMap.put(i, i);
+		System.out.println("tm: " +treeMap);
+
+		BinaryTreePrinter<Entry<Integer,Integer>> printer = new BinaryTreePrinter<>(treeMap.tree);
+		System.out.println(printer.print());
+		/*Random rnd = new Random();
 		int n = 16;
 		java.util.List<Integer> rands = rnd.ints(1, 1000).limit(n).distinct().boxed().collect(Collectors.toList());
 
@@ -311,6 +333,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		treeMap.remove(rands.get(1));
 
 		System.out.println("tree entries after removal: " + treeMap.entrySet());
+		*/
 	}
 
 	/** Overrides the TreeMap rebalancing hook that is called after an insertion. */

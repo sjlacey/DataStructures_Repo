@@ -12,9 +12,9 @@ import java.util.List;
    @author: Aonghus Lawlor aonghus.lawlor@ucd.ie
  */
 
-public class BinaryTreePrinter< N > {
+public class BinaryTreePrinter< N > { //TODO N should be entry
 
-	private boolean squareBranches = false;
+	private boolean squareBranches = true;
 	private boolean lrAgnostic = false;
 	private int hspace = 2;
 	//private int tspace = 1;
@@ -28,8 +28,6 @@ public class BinaryTreePrinter< N > {
 	public String print() {
 		List<TreeLine> treeLines = buildTreeLines(tree.root());
 		return printTreeLines(treeLines);
-		
-		//return tree.toString();
 	}
 	
 	private static class TreeLine {

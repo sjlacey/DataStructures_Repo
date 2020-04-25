@@ -295,39 +295,64 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 */
 
   public E remove(Position<E> p) throws IllegalArgumentException {
+    Node<E> node;
     try {
-      validate(p);
+      node = validate(p);
     }
     catch(IllegalArgumentException e) {
       throw new IllegalArgumentException("Not valid position type");
     }
 
-    Node<E> node = validate(p);
     E temp = node.getElement();
+    Node<E> child;
 
     if(node.getLeft()!=null && node.getRight()!=null) {
       throw new IllegalArgumentException("Cannot remove a node with two children!");
     }
     else if(node.getLeft()!=null) {
+      child = node.getLeft();
+    } else if(node.getRight()!=null) {
+      child = node.getRight();
+    } else {
+      child = null;
+    }
+
+    if(child!=null) {
+      child.setParent(node.getParent());
+    }
+
+    if(node==root) {
+      root = child;
+    } else {
+      Node<E> parent = node.getParent();
+      if(node==parent.getLeft()) {
+        parent.setLeft(child);
+      } else {
+        parent.setRight(child);
+      }
+    }
+
+    /*if(node.getLeft()!=null) { //TODO delete
+      child = node.getLeft();
       //working with the left
-      if(node.getLeft().getLeft()!=null || node.getLeft().getRight()!=null) {
-        Position<E> pos = node.getLeft();
-        remove(pos);
+      if(child.getLeft()!=null || child.getRight()!=null) {
+        remove(child);
       } else {
-        node = node.getLeft();
-        node.getLeft().setElement(null);
+        node = child;
+        child.setElement(null);
       }
-    }
-    else if(node.getRight()!=null) {
+    } else if(node.getRight()!=null) {
+      child = node.getRight();
       //working with the right
-      if(node.getRight().getLeft()!=null || node.getRight().getRight()!=null) {
-        Position<E> pos = node.getRight();
-        remove(pos);
+      if(child.getLeft()!=null || child.getRight()!=null) {
+        remove(child);
       } else {
-        node = node.getRight();
-        node.getRight().setElement(null);
+        node = child;
+        child.setElement(null);
       }
-    }
+    } else {
+      throw new IllegalArgumentException("Cannot remove a node with two children!");
+    }*/
 
     return temp;
   }
@@ -347,10 +372,14 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   public static void main(String [] args) {
     LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
-    int [] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75};
+    int [] arr = {12, 25/*, 31, 58, 36, 42, 90, 62, 75*/};
     for(int i : arr) {
       bt.insert(i);
     }
+                               //12
+    Position<Integer> pos = bt.root;
+    bt.remove(pos);
+
     System.out.println("bt: " + bt.size() + "(=size) " + bt );
   }
 }
