@@ -10,6 +10,10 @@ public class SinglyLinkedList<E> implements List<E>
 	E e;
 	//E head; old code
 	Node<E> head;
+	Node<E> last;
+
+	public E first() { return head.getElement(); }
+	public E last() { return get(size); }
 
 	static class Node<E> //*** Node class is very simple, just holding references
 	{                            //*** to the data and the pointer to the next node!
@@ -69,6 +73,7 @@ public class SinglyLinkedList<E> implements List<E>
 	@Override
 	public void add(int i, E e)
 	{
+
 		Node<E> cur;
 		Node<E> prev;
 
@@ -198,6 +203,8 @@ public class SinglyLinkedList<E> implements List<E>
 		//delete cur node
 		assert prev != null;
 		prev.next = null;
+
+		last = prev;
 
 		return cur.getElement();
 	}

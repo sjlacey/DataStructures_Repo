@@ -152,7 +152,7 @@ class SplayTreeMapTest {
 		for(Integer i : arr) {
 			map.put(i, Integer.toString(i));
 		}
-				
+
 		// assertEquals("[12, 15, 21, 23, 24, 26, 33]", map.subMap(12, 34).keySet().toString());	
 		assertEquals("[<12, 12>, <15, 15>, <21, 21>, <23, 23>, <24, 24>, <26, 26>, <33, 33>]", map.subMap(12, 34).toString());	
 	}

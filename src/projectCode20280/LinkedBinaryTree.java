@@ -41,6 +41,12 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
     public void setLeft(Node<E> leftChild) { this.left = leftChild; }
     public void setRight(Node<E> rightChild) { this.right = rightChild; }
 
+    public String toString()
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.append(element);
+      return sb.toString();
+    }
   }
 
   //Factory function to create a new node storing element e.
@@ -124,7 +130,7 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 */
 
   @Override
-  public Position<E> left(Position<E> p) throws IllegalArgumentException
+  public Position<E> left(Position<E> p) throws IllegalArgumentException //TODO below...
   {
     Node<E> node = validate(p);
     /*if(node.getLeft() == null)
@@ -143,7 +149,7 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 */
 
   @Override
-  public Position<E> right(Position<E> p) throws IllegalArgumentException
+  public Position<E> right(Position<E> p) throws IllegalArgumentException //TODO trim this stuff out of this method and left one above
   {
     Node<E> node = validate(p);
     /*if(node.getRight() == null)
@@ -357,6 +363,12 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
     return temp;
   }
 
+  public void createLevelOrder(Integer[] array)
+  {
+
+  }
+
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -372,14 +384,19 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   public static void main(String [] args) {
     LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 
-    int [] arr = {12, 25/*, 31, 58, 36, 42, 90, 62, 75*/};
-    for(int i : arr) {
-      bt.insert(i);
-    }
-                               //12
-    Position<Integer> pos = bt.root;
-    bt.remove(pos);
+    Position<Integer> root = bt.addRoot(12);
+    Position<Integer> l1 = bt.addLeft(root, 25);
+    Position<Integer> r1 = bt.addRight(root, 31);
 
-    System.out.println("bt: " + bt.size() + "(=size) " + bt );
+    Position<Integer> l1l = bt.addLeft(l1, 58);
+    bt.addRight(l1, 36);
+    bt.addLeft(l1l, 62);
+    bt.addRight(l1l, 75);
+
+    bt.addLeft(r1, 42);
+    bt.addRight(r1, 90);
+
+    System.out.println("bt: (inorder) " + bt.inorder() );
+    System.out.println("bt: (preorder) " + bt.preorder() );
   }
 }

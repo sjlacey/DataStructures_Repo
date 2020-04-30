@@ -9,6 +9,9 @@ public class DoublyLinkedList<E> implements List<E>
 	private Node<E> trailer;
 	private int size = 0;
 
+	public E first() { return header.getElement(); }
+	public E last() { return trailer.getElement(); }
+
 	public DoublyLinkedList()
 	{
 		header = new Node<E>(null, null, null);
