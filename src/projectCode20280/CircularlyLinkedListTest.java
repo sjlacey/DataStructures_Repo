@@ -72,7 +72,10 @@ class CircularlyLinkedListTest {
     @Test
     void testRemove() {
         CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<>();
-        for(int i = 0; i < 5; ++i) ll.addLast(i);
+        for(int i = 0; i < 5; ++i) {
+            ll.addLast(i);
+            System.out.println(i);
+        }
 
         ll.remove(1);
         assertEquals("[0, 2, 3, 4]", ll.toString());
