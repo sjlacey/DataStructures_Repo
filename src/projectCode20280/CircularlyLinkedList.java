@@ -9,7 +9,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	public CircularlyLinkedList() { }
 
-	private class Node<E>
+	private static class Node<E>
 	{
 		private E element;
 
@@ -28,6 +28,10 @@ public class CircularlyLinkedList<E> implements List<E> {
 		public E getElement()
 		{
 			return element;
+		}
+		public void setElement(E e)
+		{
+			this.element = e;
 		}
 
 		//Mutators
@@ -65,21 +69,26 @@ public class CircularlyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int i, E e)
 	{
+		if(isEmpty()) {
+			tail.setElement(e);
+			tail.setNext(tail);
+		}
+
+		Node<E> cur = tail;
+
 		if(i>0) {
-			Node<E> cur = tail.getNext();
 			for(int j=0; j<i; j++)
 			{
-				tail = cur;
 				cur = cur.next;
 			}
 		}
 
 		if (size == 0) {
-			tail = new Node<>(e, null);
-			tail.setNext(tail);                     // link to itself circularly
+			cur = new Node<>(e, null);
+			cur.setNext(cur);                     // link to itself circularly
 		} else {
-			Node<E> newest = new Node<>(e, tail.getNext());
-			tail.setNext(newest);
+			Node<E> newest = new Node<>(e, cur.getNext());
+			cur.setNext(newest);
 		}
 		size++;
 	}
@@ -181,12 +190,13 @@ public class CircularlyLinkedList<E> implements List<E> {
 	public static void main(String[] args) {
 		CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();
 		for(int i = 10; i < 20; ++i) {
-			ll.addLast(i);
+			ll.addFirst(i);
 		}
-
+		ll.add(4, 999);
 		System.out.println("Filled: "+ll);
 
-		ll.removeFirst();
+
+		/*ll.removeFirst();
 		System.out.println("First removed: "+ll);
 
 		ll.removeLast();
@@ -204,6 +214,6 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 		for(int i=0; i<ll.size(); i++) {
 			System.out.println("value:" + ll.get(i));
-		}
+		}*/
 	}
 }
