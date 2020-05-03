@@ -38,13 +38,19 @@ public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 
 	/** Relinks a parent node with its oriented child node. */
 	private void relink(Node<Entry<K, V>> parent, Node<Entry<K, V>> child, boolean makeLeftChild) {
-		// TODO
+
+		child.setParent(parent);
+		if(makeLeftChild) {
+			parent.setLeft(child);
+		} else {
+			parent.setRight(child);
+		}
 	}
 
 	/**
 	 * Rotates Position p above its parent. Switches between these configurations,
 	 * depending on whether p is a or p is b.
-	 * 
+	 *
 	 * <pre>
 	 *          b                  a
 	 *         / \                / \
@@ -52,11 +58,29 @@ public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 	 *       / \                    / \
 	 *      t0  t1                 t1  t2
 	 * </pre>
-	 * 
+	 *
 	 * Caller should ensure that p is not the root.
 	 */
 	public void rotate(Position<Entry<K, V>> p) {
-		// TODO
+		Node<Entry<K,V>> child = validate(p);
+		Node<Entry<K,V>> parent = child.getParent();
+		Node<Entry<K,V>> grandparent = parent.getParent();
+
+		if(grandparent==null) {
+			root = child;
+			child.setParent(null);
+		} else {
+			Node<Entry<K,V>> left = grandparent.getLeft();
+			relink(grandparent, child, parent==left);
+		}
+
+		if(child == parent.getRight()) {
+			relink(parent, child.getLeft(), false);
+			relink(child, parent, true);
+		} else {
+			relink(parent, child.getRight(), true);
+			relink(child, parent, false);
+		}
 	}
 
 	/**
@@ -64,7 +88,7 @@ public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 	 * Returns the Position that becomes the root of the restructured subtree.
 	 *
 	 * Assumes the nodes are in one of the following configurations:
-	 * 
+	 *
 	 * <pre>
 	 *     z=a                 z=c           z=a               z=c
 	 *    /  \                /  \          /  \              /  \
@@ -74,10 +98,10 @@ public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 	 *        /  \        /  \               /  \              /  \
 	 *       t2  t3      t0  t1             t1  t2            t1  t2
 	 * </pre>
-	 * 
+	 *
 	 * The subtree will be restructured so that the node with key b becomes its
 	 * root.
-	 * 
+	 *
 	 * <pre>
 	 *           b
 	 *         /   \
@@ -85,11 +109,20 @@ public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 	 *      / \     / \
 	 *     t0  t1  t2  t3
 	 * </pre>
-	 * 
+	 *
 	 * Caller should ensure that x has a grandparent.
 	 */
-	public Position<Entry<K, V>> restructure(Position<Entry<K, V>> x) {
-		// TODO 
-		return null;
+	public Position<Entry<K, V>> restructure(Position<Entry<K, V>> child) {
+		Position<Entry<K,V>> parent = parent(child);
+		Position<Entry<K,V>> grandparent = parent(parent);
+
+		if( (child==right(parent)) != (parent==right(grandparent)) ) {
+			rotate(child);
+			rotate(child);
+			return child;
+		} else {
+			rotate(parent);
+			return parent;
+		}
 	}
-} 
+}

@@ -34,8 +34,6 @@ class SinglyLinkedListTest {
 		
 		ll.removeFirst();
 		assertEquals(null, ll.first());
-		
-		
 	}
 
 	@Test

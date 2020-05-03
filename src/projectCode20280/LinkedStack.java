@@ -16,12 +16,12 @@ public class LinkedStack<E> implements Stack<E> {
 
 	@Override
 	public void push(E e) {
-		linkedlist.addLast(e);
+		linkedlist.addFirst(e);
 	}
 
 	@Override
 	public E top() {
-		return linkedlist.get(size());
+		return linkedlist.get(0);
 	}
 
 	@Override

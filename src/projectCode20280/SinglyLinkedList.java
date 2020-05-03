@@ -12,8 +12,15 @@ public class SinglyLinkedList<E> implements List<E>
 	Node<E> head;
 	Node<E> last;
 
-	public E first() { return head.getElement(); }
-	public E last() { return get(size); }
+	public E first()
+	{
+		if(!isEmpty()) {
+			return head.getElement();
+		} else {
+			return null;
+		}
+	}
+	public E last() { return get(size-1); }
 
 	static class Node<E> //*** Node class is very simple, just holding references
 	{                            //*** to the data and the pointer to the next node!
@@ -43,6 +50,7 @@ public class SinglyLinkedList<E> implements List<E>
 			next = n;
 		}
 		public void setElement(E e) { this.element = e; }
+
 	}
 
 	@Override
@@ -119,26 +127,28 @@ public class SinglyLinkedList<E> implements List<E>
 			throw new RuntimeException("Cannot delete as the list is empty!");
 		}
 
-		if(cur.getElement().equals(i))
-		{
-			head=head.next;
-			return head.getElement();
-		}
 		for(int j=0; j<i; j++)
 		{
 			prev = cur;
-			cur = cur.next;
+			cur = cur.getNext();
 		}
+
 		if(cur == null)
 		{
 			throw new RuntimeException("Cannot delete");
 		}
 
 		//delete cur node
-		assert prev != null;
-		prev.next = cur.next;
+		E value = cur.getElement();
 
-		return cur.getElement();
+		if(i==0) {
+			head = cur.getNext();
+		} else {
+			prev.setNext(cur.getNext());
+		}
+
+		size--;
+		return value;
 	}
 
 
@@ -180,33 +190,13 @@ public class SinglyLinkedList<E> implements List<E>
 	@Override
 	public E removeFirst()
 	{
-		head=head.next;
-		return head.getElement();
+		return remove(0);
 	}
 
 	@Override
 	public E removeLast()
 	{
-		Node<E> cur = head;
-		Node<E> prev = null;
-
-		if(head==null)
-		{
-			throw new RuntimeException("Cannot delete as the list is empty!");
-		}
-		while (cur.next != null)
-		{
-			prev = cur;
-			cur = cur.next;
-		}
-
-		//delete cur node
-		assert prev != null;
-		prev.next = null;
-
-		last = prev;
-
-		return cur.getElement();
+		return remove(size-1);
 	}
 
 	@Override
@@ -225,24 +215,27 @@ public class SinglyLinkedList<E> implements List<E>
 	public String toString()
 	{
 		Node<E> cur = head;
-		StringBuilder s= new StringBuilder("(  ");
+		StringBuilder sb = new StringBuilder("[");
 
 		while(cur != null)
 		{
-			s.append(cur.getElement().toString());
+			sb.append(cur.getElement().toString());
 			cur = cur.getNext();
 
-			s.append("  ");
+			if(cur!=null) {
+				sb.append(", ");
+			}
 		}
 
-		s.append(")");
+		sb.append("]");
 
-		return s.toString();
+		return sb.toString();
 	}
 
 	public static void main(String[] args)
 	{
 		SinglyLinkedList <Integer> ll = new SinglyLinkedList <Integer >();
+		System.out.println(ll.head);
 
 		ll.addFirst(0);
 		ll.addFirst(1);

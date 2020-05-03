@@ -14,8 +14,7 @@ public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
 	//Indexes of the ArrayList are NOT given by the key K values - from notes
 
 	/** Constructs an initially empty map. */
-	public UnsortedTableMap() {
-	}
+	public UnsortedTableMap() { }
 
 	// private utility
 	/** Returns the index of an entry with equal key, or -1 if none found. */

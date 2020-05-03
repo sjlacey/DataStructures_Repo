@@ -1,16 +1,27 @@
 package projectCode20280;
 
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DoublyLinkedList<E> implements List<E>
 {
-
 	private Node<E> header;
 	private Node<E> trailer;
 	private int size = 0;
 
-	public E first() { return header.getElement(); }
-	public E last() { return trailer.getElement(); }
+	public E first()
+	{
+		if(header == null) {
+			return null;
+		} else {
+			return header.getElement();
+		}
+	}
+	public E last() { return get(size-1); }
 
 	public DoublyLinkedList()
 	{
@@ -102,6 +113,7 @@ public class DoublyLinkedList<E> implements List<E>
 		if(isEmpty())
 		{
 			header = new Node<E>(e, null, null);
+			trailer = header;
 			size++;
 		}
 		else if(i==0)
@@ -141,77 +153,72 @@ public class DoublyLinkedList<E> implements List<E>
 			throw new RuntimeException("Cannot delete as the list is empty!");
 		}
 
-		if(cur.getElement().equals(i))
-		{
-			header=header.next;
-			return header.getElement();
-		}
 		for(int j=0; j<i; j++)
 		{
 			prev = cur;
-			cur = cur.next;
+			cur = cur.getNext();
 		}
+
 		if(cur == null)
 		{
 			throw new RuntimeException("Cannot delete");
 		}
 
 		//delete cur node
-		assert prev != null;
-		prev.next = cur.next;
+		E value = cur.getElement();
 
-		return cur.getElement();
+		if(i==0) {
+			header = cur.getNext();
+		} else {
+			try {
+				prev.setNext(cur.getNext());
+			} catch(NullPointerException ignored) { }
+		}
+
+		size--;
+		return value;
 	}
 
 	@Override
 	public Iterator<E> iterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new DoublyLinkedListIterator();
 	}
 
+	private class DoublyLinkedListIterator implements Iterator<E>
+	{
+		Node<E> cur;
+		public DoublyLinkedListIterator()
+		{
+			cur = header;
+		}
+		public boolean hasNext()
+		{
+			return cur != null;
+		}
 
+		@Override
+		public E next()
+		{
+			E res = (E) cur.getElement();
+			cur = cur.getNext();
+			return res;
+		}
+	}
 
 	@Override
 	public E removeFirst()
 	{
-
-		if(header==null)
-		{
-			throw new RuntimeException("Cannot delete as the list is empty!");
-		}
-		else if(header.getElement() == null)
-		{
-			throw new RuntimeException("this");
-		}
-		else
-		{
-			return remove((Integer) header.getElement());
-		}
-
+		return remove(0);
 	}
 
 	@Override
 	public E removeLast()
 	{
-		Node<E> cur = header;
-		Node<E> prev = null;
-
-		if(header==null)
-		{
-			throw new RuntimeException("Cannot delete as the list is empty!");
+		if(isEmpty()) {
+			return null;
 		}
-		while (cur.next != null)
-		{
-			prev = cur;
-			cur = cur.next;
-		}
-
-		//delete cur node
-		assert prev != null;
-		prev.next = null;
-
-		return cur.getElement();
+		return remove(size-1);
 	}
 	
 
@@ -231,17 +238,19 @@ public class DoublyLinkedList<E> implements List<E>
 	public String toString()
 	{
 		Node<E> cur = header;
-		StringBuilder s= new StringBuilder("(  ");
+		StringBuilder s= new StringBuilder("[");
 
 		while(cur != null && cur.getElement() != null)
 		{
 			s.append(cur.getElement().toString());
 			cur = cur.getNext();
 
-			s.append("  ");
+			if(cur!=null){
+				s.append(", ");
+			}
 		}
 
-		s.append(")");
+		s.append("]");
 
 		return s.toString();
 	}
@@ -249,23 +258,24 @@ public class DoublyLinkedList<E> implements List<E>
 	
 	public static void main(String[] args)
 	{
-		   DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
-           ll.addFirst(0);
-           ll.addFirst(1);
-           ll.addFirst(2);
-           ll.addLast(-1);
-           System.out.println(ll);
-           
-           ll.removeFirst();
-           System.out.println(ll);
+		DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
 
-           ll.removeLast();
-           System.out.println(ll);
-           
-           for(Integer e: ll)
-           {
-                   System.out.println("value: " + e);
-           }
+		ll.addFirst(0);
+	    ll.addFirst(1);
+	    ll.addFirst(2);
+	    ll.addLast(-1);
+	    System.out.println(ll);
+
+	    ll.removeFirst();
+	    System.out.println(ll);
+
+	    ll.removeLast();
+	    System.out.println(ll);
+
+	    for(Integer e: ll)
+	    {
+	    	System.out.println("value: " + e);
+	    }
 	}
 
 	

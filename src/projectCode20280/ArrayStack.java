@@ -75,7 +75,7 @@ public class ArrayStack<E> implements Stack<E>
 
 	public static void main(String[] args)
 	{
-		ArrayStack AS = new ArrayStack();
+		ArrayStack<Integer> AS = new ArrayStack<Integer>();
 
 		AS.push(1);
 		AS.push(2);

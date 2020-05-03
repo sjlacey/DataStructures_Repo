@@ -115,7 +115,18 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
      * Updates the size of the hash table and rehashes all entries.
      */
     private void resize(int newCap) {
-    	// TODO
+    	ArrayList<Entry<K,V>> list = new ArrayList<>(n);
+
+    	for(Entry<K,V> entry : entrySet()) {
+    	    list.add(entry);
+        }
+
+    	capacity = newCap;
+    	createTable();
+    	n=0;
+    	for(Entry<K,V> entry : list) {
+    	    put(entry.getKey(), entry.getValue());
+        }
     }
 
     // protected abstract methods to be implemented by subclasses

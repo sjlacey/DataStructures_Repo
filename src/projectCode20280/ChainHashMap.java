@@ -1,6 +1,8 @@
 package projectCode20280;
 
 import javax.xml.stream.events.EntityReference;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -144,13 +146,25 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 		m.remove(11);
 		System.out.println("m: " + m);
 
-		/*frequency counter
-		ChainHashMap<String, Integer> counter = new();
-		Scanner scanner = new Scanner();
-		pseudocode:
-		for(String word : scanner) { //scan the file
-			Integer tempCount = counter.get(word);
-			counter.put(tempCode+1); //TODO is going to count the frequency of words
-		}*/
+		ChainHashMap<String, Integer> counter = new ChainHashMap<String, Integer>();
+		File file = new File("src/projectCode20280/ChainHashMapText.txt");
+		try {
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNextLine()) {
+				String word = scanner.next();
+				Integer temp;
+				try {
+					temp = counter.get(word);
+					counter.put(word, temp+1);
+
+				} catch(NullPointerException E) {
+					counter.put(word, 1);
+				}
+			}
+		} catch (FileNotFoundException E) {
+			System.out.println("File not detected.");
+		}
+
+		System.out.println(counter.entrySet().toString());
 	}
 }

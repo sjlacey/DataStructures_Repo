@@ -8,12 +8,12 @@ public class LinkedQueue<E> implements Queue<E> {
 
 	private SinglyLinkedList<E> ll = new SinglyLinkedList<E>();
 
-	SinglyLinkedList.Node<E> front = null;
-	SinglyLinkedList.Node<E> rear = null;
+	SinglyLinkedList.Node<E> front;
+	SinglyLinkedList.Node<E> rear;
 
 	@Override
 	public int size() {
-		return size;
+		return ll.size();
 	}
 
 	@Override
@@ -23,32 +23,22 @@ public class LinkedQueue<E> implements Queue<E> {
 
 	@Override
 	public void enqueue(E e) {
-		ll.add(size, e);
-		if(rear==null) {
-			front.setElement(e);
-		}
-		else {
-			//rear-2 = e;
-		}
-
-		size++;
+		ll.addLast(e);
 	}
 
 	@Override
 	public E first() {
-		// TODO Auto-generated method stub
-		return null;
+		return ll.first();
 	}
 
 	@Override
 	public E dequeue() {
-		// TODO Auto-generated method stub
-		return null;
+		return ll.removeFirst();
 	}
 
 	@Override
 	public String toString() {
-		return null;
+		return ll.toString();
 	}
 
 	public static void main(String[] args) {

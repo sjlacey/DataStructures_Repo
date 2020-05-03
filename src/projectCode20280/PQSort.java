@@ -7,10 +7,7 @@ import java.util.stream.Collectors;
 public class PQSort
 {
 
-    public PQSort()
-    {
-
-    }
+    public PQSort() { }
 
     public static Integer removeMin(LinkedList<Integer> ll)
     {

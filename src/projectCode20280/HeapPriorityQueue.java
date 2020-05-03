@@ -3,6 +3,7 @@ package projectCode20280;
 /*
  */
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -56,26 +57,11 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>
   }
 
   // protected utilities
-  protected int parent(int j)
-  {
-    return j/2;
-  }
-  protected int left(int j)
-  {
-    return j*2;
-  }
-  protected int right(int j)
-  {
-    return j*2 + 1;
-  }
-  protected boolean hasLeft(int j)
-  {
-    return left(j) < heap.size();
-  }
-  protected boolean hasRight(int j)
-  {
-    return right(j) < heap.size();
-  }
+  protected int parent(int j) { return (j-1)/2; }
+  protected int left(int j) { return j*2+1; }
+  protected int right(int j) { return j*2+2; }
+  protected boolean hasLeft(int j) { return left(j) < heap.size(); }
+  protected boolean hasRight(int j) { return right(j) < heap.size(); }
 
 /** Exchanges the entries at indices i and j of the array list. */
 
@@ -92,10 +78,13 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>
   {
     while(j>0) //continue until we reach the root, or the break
     {
-      int p = parent(j);
-      if(compare(heap.get(j), heap.get(p)) >= 0) break; //heap property verified!
-      swap(j, p);
-      j=p; //continue from the parent's location
+      int parent = parent(j);
+      if(compare(heap.get(j), heap.get(parent)) >= 0)
+      {
+        break; //heap property verified!
+      }
+      swap(j, parent);
+      j=parent; //continue from the parent's location
     }
   }
 
@@ -106,20 +95,20 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>
     while(hasLeft(j)) //continue to bottom, or to the break statement
     {
       int leftIndex = left(j);
-      int smallChildIndex = leftIndex; //but what if the right is smaller? if statements required:
+      int smallerChildIndex = leftIndex; //but what if the right is smaller? if statements required:
       if(hasRight(j))
       {
         int rightIndex = right(j);
         if(compare(heap.get(leftIndex), heap.get(rightIndex)) > 0)
         {
-          smallChildIndex = rightIndex; //right child IS, in fact, smaller
+          smallerChildIndex = rightIndex; //right child IS, in fact, smaller
         }
       }
-      if(compare(heap.get(smallChildIndex), heap.get(j)) >= 0)
+      if(compare(heap.get(smallerChildIndex), heap.get(j)) >= 0)
         break;
 
-      swap(j, smallChildIndex); //heap property has been restored
-      j = smallChildIndex;      //continue at the position of the child
+      swap(j, smallerChildIndex); //heap property has been restored
+      j = smallerChildIndex;      //continue at the position of the child
     }
   }
 
@@ -155,9 +144,11 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>
   public Entry<K,V> min()
   {
     if(heap.isEmpty())
+    {
       return null;
-
-    return heap.get(0);
+    } else {
+      return heap.get(0);
+    }
   }
 
 /**
@@ -186,15 +177,35 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>
   @Override
   public Entry<K,V> removeMin()
   {
-    if(heap.isEmpty()) return null;
-    Entry<K,V> answer = heap.get(0);
+    if(heap.isEmpty())
+    {
+      return null;
+    }
+    Entry<K,V> temp = heap.get(0);
     swap(0, heap.size()-1);    //put minimum item at the end
     heap.remove(heap.size()-1);      //and remove it from the list,
     downheap(0);                  //then fix the new root!
-    return answer;
+    return temp;
   }
-/** Used for debugging purposes only */
 
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[");
+
+    for(int i=0; i<heap.size(); i++) {
+
+      sb.append(heap.get(i).getKey());
+      if(i!=heap.size()-1) {
+        if(heap.get(1) != null) {
+          sb.append(", ");
+        }
+      }
+    }
+
+    sb.append("]");
+    return sb.toString();
+  }
+
+/** Used for debugging purposes only */
   private void sanityCheck()
   {
     for (int j=0; j < heap.size(); j++)

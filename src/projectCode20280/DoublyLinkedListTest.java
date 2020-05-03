@@ -31,12 +31,13 @@ class DoublyLinkedListTest {
 		DoublyLinkedList<Integer> ll = new DoublyLinkedList<>();
 		ll.addFirst(-1);
 		assertEquals(-1, ll.first());
-		
+
 		ll.removeFirst();
 		assertEquals(null, ll.first());
-		
-		
-	}
+
+		}
+
+
 
 	@Test
 	void testLast() {
@@ -47,7 +48,7 @@ class DoublyLinkedListTest {
 
 		ll.addFirst(-2);
 		assertEquals(-1, ll.last());
-		
+
 		ll.addLast(-3);
 		assertEquals(-3, ll.last());
 	}
@@ -99,7 +100,7 @@ class DoublyLinkedListTest {
 	void testIterator() {
 		DoublyLinkedList<Integer> ll = new DoublyLinkedList<>();
 		for(int i = 0; i < 5; ++i) ll.addLast(i);
-		
+
 		ArrayList<Integer> buf = new ArrayList<>();
 		for(Integer i : ll) {
 			buf.add(i);

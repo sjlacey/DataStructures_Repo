@@ -2,15 +2,15 @@ package projectCode20280;
 
 import java.util.Comparator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * An implementation of a sorted map using an AVL tree.
  */
 
 public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 
-
     protected BalanceableBinaryTree<K, V> tree = new BalanceableBinaryTree<>();
-
     
 	/** Constructs an empty map using the natural ordering of keys. */
 	public AVLTreeMap() {
@@ -35,20 +35,31 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	 * Recomputes the height of the given position based on its children's heights.
 	 */
 	protected void recomputeHeight(Position<Entry<K, V>> p) {
-		// TODO
-
+		tree.setAux(p, 1+Math.max(height(left(p)), height(right(p))));
 	}
 
 	/** Returns whether a position has balance factor between -1 and 1 inclusive. */
 	protected boolean isBalanced(Position<Entry<K, V>> p) {
-		// TODO
-		return false;
+		return (Math.abs(height(left(p)) - height(right(p))) <= 1);
 	}
 
 	/** Returns a child of p with height no smaller than that of the other child. */
 	protected Position<Entry<K, V>> tallerChild(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		if(height(left(p)) < height(right(p))) {
+			return right(p);
+		}
+		if(height(left(p)) > height(right(p))) {
+			return left(p);
+		}
+
+		if(isRoot(p)) {
+			return left(p);
+		}
+		if(p==left(parent(p))) {
+			return left(p);
+		} else {
+			return right(p);
+		}
 	}
 
 	/**
@@ -57,20 +68,36 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	 * imbalance is found, continuing until balance is restored.
 	 */
 	protected void rebalance(Position<Entry<K, V>> p) {
-		// TODO
-		return;
+		int height = 0;
+		int newHeight = 1;
+		try{
+			while(height!=newHeight) {
+				height = height(p);
+
+				if(!isBalanced(p)) {
+					p=tree.restructure(tallerChild(tallerChild(p)));
+					recomputeHeight(left(p));
+					recomputeHeight(right(p));
+				}
+				recomputeHeight(p);
+				newHeight = height(p);
+				p=parent(p);
+			}
+		} catch (IllegalArgumentException | NullPointerException ignored) { }
 	}
 
 	/** Overrides the TreeMap rebalancing hook that is called after an insertion. */
 	@Override
 	protected void rebalanceInsert(Position<Entry<K, V>> p) {
-		// TODO
+		rebalance(p);
 	}
 
 	/** Overrides the TreeMap rebalancing hook that is called after a deletion. */
 	@Override
 	protected void rebalanceDelete(Position<Entry<K, V>> p) {
-		// TODO
+		if(!isRoot(p)) {
+			rebalance(parent(p));
+		}
 	}
 
 	/** Ensure that current tree structure is valid AVL (for debug use only). */
@@ -97,17 +124,26 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	*/
 	
 	public static void main(String [] args) {
-		AVLTreeMap<Integer, Integer> avl = new AVLTreeMap<>();
-		Integer[] arr = new Integer[] { 44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21, 29, 76, 80 };
-		for (Integer i : arr) {
-			avl.put(i, i);
-		}
+		AVLTreeMap<Integer, String> map1 = new AVLTreeMap<>();
 
-		System.out.println("avl: " + avl);
-		
+
+		AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
+		Integer[] arr1 = new Integer[] { 44, 17, 88, 15, 65, 24, 26, 54, 34, 2 };
+
+		for(Integer i : arr1) {
+			map.put(i, Integer.toString(i));
+			System.out.println(map);
+		}
+		System.out.println(map.get(15));
+
+		/*System.out.println("avl: " + avl);
+
 		avl.remove(arr[0]);
 
 		System.out.println("avl: " + avl);
+
+		AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
+		Integer[] arr2 = new Integer[] {35,26,15,24,33,4,12,1,23,21,2,5};*/
 	}
 }
 
