@@ -1,7 +1,6 @@
-package projectCode20280;
+//This is my HeapPriorityQueue implementation. It implements the AbstractPriorityQueue ADT, overriding all methods necessary, and it is based on an ArrayList. All functions work perfectly.
 
-/*
- */
+package projectCode20280;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

@@ -1,3 +1,5 @@
+//This is my implementation of a SinglyLinkedList. It implements the basic list ADT, overriding all necessary functions, which all work as desired.
+
 package projectCode20280;
 
 import javax.swing.*;

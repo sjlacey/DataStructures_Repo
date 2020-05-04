@@ -1,3 +1,5 @@
+//This is my implementation of a LinkedDeque. It implements the Deque ADT from the Deque Interface file.
+
 package projectCode20280;
 
 public class LinkedDeque<E> implements Deque<E> {
@@ -32,7 +34,7 @@ public class LinkedDeque<E> implements Deque<E> {
 	@Override
 	public void addLast(E e) {
 		dll.addLast(e);
-		
+
 	}
 
 	@Override
@@ -45,4 +47,18 @@ public class LinkedDeque<E> implements Deque<E> {
 		return dll.removeLast();
 	}
 
+	public static void main(String[] args) {
+		LinkedDeque<Integer> lcq = new LinkedDeque<Integer>();
+		for(int i=0; i<5; i++) {
+			lcq.addFirst(i);
+		}
+		System.out.println(lcq.dll.toString());
+		lcq.removeFirst();
+		lcq.removeFirst();
+		System.out.println(lcq.dll.toString());
+		lcq.removeLast();
+		System.out.println(lcq.dll.toString());
+		System.out.println(lcq.last());
+		System.out.println(lcq.first());
+	}
 }

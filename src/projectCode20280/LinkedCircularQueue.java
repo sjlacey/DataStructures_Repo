@@ -1,12 +1,6 @@
-package projectCode20280;
+//This is my implementation of a LinkedCircularQueue. It implements the Queue ADT.
 
-/**
- * Realization of a circular FIFO queue as an adaptation of a
- * CircularlyLinkedList. This provides one additional method not part of the
- * general Queue interface. A call to rotate() is a more efficient simulation of
- * the combination enqueue(dequeue()). All operations are performed in constant
- * time.
- */
+package projectCode20280;
 
 public class LinkedCircularQueue<E> implements Queue<E> {
 
@@ -37,4 +31,14 @@ public class LinkedCircularQueue<E> implements Queue<E> {
 		return cll.removeFirst();
 	}
 
+	public static void main(String[] args) {
+		LinkedCircularQueue<Integer> lcq = new LinkedCircularQueue<Integer>();
+		for(int i=0; i<5; i++) {
+			lcq.enqueue(i);
+		}
+		System.out.println(lcq.cll.toString());
+		lcq.dequeue();
+		lcq.dequeue();
+		System.out.println(lcq.cll.toString());
+	}
 }

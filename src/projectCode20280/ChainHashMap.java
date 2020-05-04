@@ -1,3 +1,8 @@
+/* This is my implementation of a ChainHashMap, which implements the AbstractHashMap ADT, and is based on an UnsortedTableMap
+ * Frequency of strings function is fully implemented, setup to read from a file ChainHashMapText.txt. This functionality only exists in the main as the
+ * class uses abstract K and V values so a function could not be made for this as the word frequency counter requires <String, Integer>.
+ */
+
 package projectCode20280;
 
 import javax.xml.stream.events.EntityReference;
@@ -6,10 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-/*
- * Map implementation using hash table with separate chaining.
- */
 
 public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	// a fixed capacity array of UnsortedTableMap that serve as buckets

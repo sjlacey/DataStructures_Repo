@@ -1,3 +1,5 @@
+//This is my implementation of an ArrayQueue, which implements the Queue ADT and overrides all necessary methods and is performing as desired.
+
 package projectCode20280;
 
 public class ArrayQueue<E> implements Queue<E> {

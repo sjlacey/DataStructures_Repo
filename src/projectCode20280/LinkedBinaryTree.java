@@ -1,7 +1,6 @@
+//This is my implementation of LinkedBinaryTree, which uses a node-based, linked structure. It implements the AbstractBinaryTree ADT and all functions perform well.
+
 package projectCode20280;
-
-//Concrete implementation of a binary tree using a node-based, linked structure.
-
 
 import java.util.ArrayList;
 

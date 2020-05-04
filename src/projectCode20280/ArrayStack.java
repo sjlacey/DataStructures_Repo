@@ -1,3 +1,5 @@
+//This is my implementation of an ArrayStack, which implements the Stack ADT and overrides all necessary methods and is performing as desired.
+
 package projectCode20280;
 
 public class ArrayStack<E> implements Stack<E>

@@ -1,3 +1,5 @@
+//This is my implementation of an AVLTreeMap, which implements the TreeMap ADT. It is based on a BalanceableBinaryTree and all rebalancing methods (and all other methods) work as desired.
+
 package projectCode20280;
 
 import java.util.Comparator;
@@ -115,13 +117,6 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 		}
 		return true;
 	}
-
-	/*
-	public String toBinaryTreeString() {
-		BinaryTreePrinter< Entry<K, V> > btp = new BinaryTreePrinter<>( (LinkedBinaryTree<Entry<K, V>>) this.tree);		
-		return btp.print();	
-	}
-	*/
 	
 	public static void main(String [] args) {
 		AVLTreeMap<Integer, String> map1 = new AVLTreeMap<>();

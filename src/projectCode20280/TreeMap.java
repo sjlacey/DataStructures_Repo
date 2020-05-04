@@ -1,3 +1,5 @@
+//This is my implementation of a TreeMap, which implements the AbstractSortedMap ADT. This class acts as a Binary Search Tree, and is based off a BalanceableBinaryTree.
+
 package projectCode20280;
 
 import java.lang.reflect.Array;
@@ -7,10 +9,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.stream.Collectors;
-
-/**
- * An implementation of a sorted map using a binary search tree.
- */
 
 public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 

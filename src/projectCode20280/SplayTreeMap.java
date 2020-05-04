@@ -1,3 +1,6 @@
+//This is my implementation of a SplayTreeMap, which implements the TreeMap ADT, and is based off a BalanceableBinaryTree.
+//It overrides the TreeMap balancing functions and uses splay to decide when to rotate correctly.
+
 package projectCode20280;
 
 import java.util.Comparator;

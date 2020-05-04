@@ -1,3 +1,5 @@
+//This is my implementation of a LinkedQueue. It implements the Queue ADT from the Queue Interface file.
+
 package projectCode20280;
 
 import org.w3c.dom.Node;

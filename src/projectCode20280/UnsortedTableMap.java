@@ -1,12 +1,10 @@
+//This is my implementation of an UnsortedTableMap, which implements the AbstractMap ADT, and is based on an arraylist. All functions work as desired.
+
 package projectCode20280;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-/**
- * An implementation of a map using an unsorted table.
- */
 
 public class UnsortedTableMap<K, V> extends AbstractMap<K, V> {
 	/** Underlying storage for the map of entries. */

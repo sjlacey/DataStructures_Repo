@@ -1,3 +1,5 @@
+//This is my implementation of a LinkedStack. It implements the Stack ADT from the Stack Interface file. It implements the necessary functionality and performs as desired.
+
 package projectCode20280;
 
 public class LinkedStack<E> implements Stack<E> {
