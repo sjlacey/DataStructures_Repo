@@ -114,6 +114,9 @@ public class CircularlyLinkedList<E> implements List<E> {
 				cur = cur.next;
 			}
 		}
+		if(i==0) {
+			prev = tail;
+		}
 
 		if (cur == tail) {
 			tail = null;

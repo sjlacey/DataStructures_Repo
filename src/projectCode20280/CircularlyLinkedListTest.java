@@ -26,17 +26,6 @@ class CircularlyLinkedListTest {
         assertEquals(true, ll.isEmpty());
     }
 
-    @Test
-    void testFirst() {
-        CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<>();
-        ll.addFirst(-1);
-        assertEquals(-1, ll.head());
-
-        ll.removeFirst();
-        assertEquals(null, ll.tail());
-
-
-    }
 
     @Test
     void testLast() {
@@ -52,6 +41,13 @@ class CircularlyLinkedListTest {
         assertEquals(-3, ll.tail());
     }
 
+    @Test
+    void testRemoveFirst() {
+        CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<>();
+        ll.addFirst(-1);
+        ll.addFirst(-2);
+        assertEquals(-2, ll.removeFirst());
+    }
 
     @Test
     void testRemoveLast() {

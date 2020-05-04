@@ -4,11 +4,6 @@ public class LinkedDeque<E> implements Deque<E> {
 
 	private DoublyLinkedList<E> dll = new DoublyLinkedList<>();
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public int size() {
 		return dll.size();
